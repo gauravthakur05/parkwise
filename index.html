@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>ParkWise — Parking Lot Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ================= BOOM BARRIER HEADER ================= -->
+  <header class="gate">
+    <div class="gate__brand">
+      <span class="gate__mark">P</span>
+      <div>
+        <h1 class="gate__title">ParkWise</h1>
+        <p class="gate__subtitle">Lot Management Console</p>
+      </div>
+    </div>
+    <div class="gate__barrier" id="barrier">
+      <div class="gate__pole" id="pole"></div>
+    </div>
+    <div class="gate__clock" id="liveClock">--:--:--</div>
+  </header>
+
+  <main class="lot">
+
+    <!-- ================= STAT COUNTERS ================= -->
+    <section class="counters" aria-label="Parking summary">
+      <div class="counter">
+        <span class="counter__label">Total Slots</span>
+        <span class="counter__value" id="totalSlots">--</span>
+      </div>
+      <div class="counter counter--available">
+        <span class="counter__label">Available</span>
+        <span class="counter__value" id="availableSlots">--</span>
+      </div>
+      <div class="counter counter--occupied">
+        <span class="counter__label">Occupied</span>
+        <span class="counter__value" id="occupiedSlots">--</span>
+      </div>
+    </section>
+
+    <div class="lot__grid">
+
+      <!-- ================= LEFT: ENTRY / EXIT / SEARCH ================= -->
+      <section class="panel">
+        <div class="panel__lane"></div>
+        <h2 class="panel__title">Vehicle Entry</h2>
+        <form id="parkForm" class="form">
+          <label class="form__label" for="vehicleNumberIn">Vehicle Number</label>
+          <input class="form__input" id="vehicleNumberIn" type="text" placeholder="PB10AB1234" required />
+
+          <label class="form__label" for="vehicleTypeIn">Vehicle Type</label>
+          <select class="form__input" id="vehicleTypeIn">
+            <option value="Car">Car</option>
+            <option value="Bike">Bike</option>
+            <option value="Truck">Truck</option>
+          </select>
+
+          <button class="btn btn--go" type="submit">Park Vehicle</button>
+        </form>
+        <p class="form__result" id="parkResult"></p>
+
+        <div class="panel__lane"></div>
+        <h2 class="panel__title">Vehicle Exit</h2>
+        <form id="exitForm" class="form">
+          <label class="form__label" for="vehicleNumberOut">Vehicle Number</label>
+          <input class="form__input" id="vehicleNumberOut" type="text" placeholder="PB10AB1234" required />
+          <button class="btn btn--stop" type="submit">Exit &amp; Calculate Fee</button>
+        </form>
+        <div class="fee-card" id="feeCard" hidden>
+          <span class="fee-card__label">Parking Fee</span>
+          <span class="fee-card__value" id="feeValue">₹0</span>
+          <span class="fee-card__meta" id="feeMeta"></span>
+        </div>
+
+        <div class="panel__lane"></div>
+        <h2 class="panel__title">Search Vehicle</h2>
+        <form id="searchForm" class="form form--inline">
+          <input class="form__input" id="searchInput" type="text" placeholder="Enter vehicle number" required />
+          <button class="btn btn--ghost" type="submit">Search</button>
+        </form>
+        <p class="form__result" id="searchResult"></p>
+      </section>
+
+      <!-- ================= RIGHT: PARKED VEHICLES ================= -->
+      <section class="panel panel--wide">
+        <div class="panel__header">
+          <h2 class="panel__title">Currently Parked</h2>
+          <button class="btn btn--ghost btn--sm" id="refreshBtn">Refresh</button>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Bay</th>
+              <th>Vehicle No.</th>
+              <th>Type</th>
+              <th>Entry Time</th>
+            </tr>
+          </thead>
+          <tbody id="vehicleTableBody">
+            <tr><td colspan="4" class="table__empty">No vehicles parked yet.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="slotmap" id="slotMap" aria-label="Slot map"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    Frontend (HTML/CSS/JS) &rarr; Node bridge &rarr; C++ parking engine
+  </footer>
+
+<script src="script.js"></script>
+</body>
+</html>
