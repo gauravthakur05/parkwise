@@ -15,6 +15,7 @@ A Parking Lot Management System with beginner-friendly C++ logic (arrays, classe
 
 ---
 
+
 ## 🛠️ Tech Stack
 
 | Layer            | Technology                          |
