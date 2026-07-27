@@ -32,7 +32,7 @@ using namespace std;
 const int TOTAL_SLOTS = 10;
 
 // Path to the data file where slot information is saved
-const string DATA_FILE = "../data/parking_data.txt";
+const string DATA_FILE = "parking_data.txt";
 
 // ---------------------------------------------------------
 // A simple class that represents ONE parking slot
@@ -75,46 +75,55 @@ public:
 
     // Load slot data from the text file into the array
     // If the file does not exist, create fresh empty slots
-    void loadData() {
-        setupEmptySlots(); // start with empty slots first
+ void loadData() {
+    setupEmptySlots();
 
-        ifstream inFile(DATA_FILE.c_str());
-        if (!inFile) {
-            // File does not exist yet, so we just keep empty slots
-            return;
-        }
+    ifstream inFile(DATA_FILE.c_str());
 
-        int slotNumber;
-        int occupiedFlag;
-        string vehicleNumber, vehicleType;
-        long entryTime;
-
-        // Read line by line: slotNumber occupiedFlag vehicleNumber vehicleType entryTime
-        while (inFile >> slotNumber >> occupiedFlag >> vehicleNumber >> vehicleType >> entryTime) {
-            int index = slotNumber - 1; // array index starts from 0
-            if (index >= 0 && index < TOTAL_SLOTS) {
-                slots[index].slotNumber = slotNumber;
-                slots[index].isOccupied = (occupiedFlag == 1);
-                slots[index].vehicleNumber = vehicleNumber;
-                slots[index].vehicleType = vehicleType;
-                slots[index].entryTime = entryTime;
-            }
-        }
-        inFile.close();
+    if (!inFile.is_open()) {
+        ofstream createFile(DATA_FILE.c_str());
+        createFile.close();
+        return;
     }
+
+    int slotNumber;
+    int occupiedFlag;
+    string vehicleNumber, vehicleType;
+    long entryTime;
+
+    while (inFile >> slotNumber >> occupiedFlag >> vehicleNumber >> vehicleType >> entryTime) {
+        int index = slotNumber - 1;
+
+        if (index >= 0 && index < TOTAL_SLOTS) {
+            slots[index].slotNumber = slotNumber;
+            slots[index].isOccupied = occupiedFlag;
+            slots[index].vehicleNumber = vehicleNumber;
+            slots[index].vehicleType = vehicleType;
+            slots[index].entryTime = entryTime;
+        }
+    }
+
+    inFile.close();
+}
 
     // Save the current slot array back into the text file
     void saveData() {
-        ofstream outFile(DATA_FILE.c_str());
-        for (int i = 0; i < TOTAL_SLOTS; i++) {
-            outFile << slots[i].slotNumber << " "
-                    << (slots[i].isOccupied ? 1 : 0) << " "
-                    << slots[i].vehicleNumber << " "
-                    << slots[i].vehicleType << " "
-                    << slots[i].entryTime << endl;
-        }
-        outFile.close();
+
+    ofstream outFile(DATA_FILE.c_str(), ios::trunc);
+
+    for (int i = 0; i < TOTAL_SLOTS; i++) {
+
+        outFile
+            << slots[i].slotNumber << " "
+            << slots[i].isOccupied << " "
+            << slots[i].vehicleNumber << " "
+            << slots[i].vehicleType << " "
+            << slots[i].entryTime << endl;
+
     }
+
+    outFile.close();
+}
 
     // Find the first empty slot. Returns index, or -1 if lot is full.
     int findEmptySlot() {
