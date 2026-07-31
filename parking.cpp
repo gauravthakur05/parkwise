@@ -1,37 +1,13 @@
-/*
-    PARKING LOT MANAGEMENT SYSTEM - Core Logic (C++)
-    ---------------------------------------------------
-    This is a simple, beginner-friendly C++ program.
-    It manages parking slots using a simple ARRAY of a Slot CLASS.
-
-    HOW IT WORKS:
-    - All parking data is stored in a text file: data/parking_data.txt
-    - Every time this program runs, it loads data from the file,
-      does ONE task (based on command line arguments), then
-      saves data back to the file and prints a result.
-    - The Node.js server (server.js) simply calls this program
-      again and again with different arguments, and reads what
-      this program prints. ALL the parking logic (deciding slots,
-      calculating fees, searching vehicles) happens right here in C++.
-
-    HOW TO RUN (examples from terminal, after compiling):
-      ./parking status
-      ./parking park PB10AB1234 Car
-      ./parking exit PB10AB1234
-      ./parking list
-      ./parking search PB10AB1234
-*/
-
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <ctime>
 using namespace std;
 
-// Total number of parking slots in our parking lot
+
 const int TOTAL_SLOTS = 10;
 
-// Path to the data file where slot information is saved
+
 const string DATA_FILE = "parking_data.txt";
 
 // ---------------------------------------------------------
