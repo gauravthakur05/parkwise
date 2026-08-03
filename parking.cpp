@@ -10,18 +10,14 @@ const int TOTAL_SLOTS = 10;
 
 const string DATA_FILE = "parking_data.txt";
 
-// ---------------------------------------------------------
-// A simple class that represents ONE parking slot
-// ---------------------------------------------------------
 class Slot {
 public:
-    int slotNumber;        // slot number (1 to TOTAL_SLOTS)
-    bool isOccupied;        // true = car is parked here, false = empty
-    string vehicleNumber;   // e.g. "PB10AB1234"
-    string vehicleType;     // e.g. "Car", "Bike", "Truck"
-    long entryTime;         // time when vehicle entered (in seconds)
+    int slotNumber;        
+    bool isOccupied;        
+    string vehicleNumber;   
+    string vehicleType;     
+    long entryTime;         
 
-    // Simple constructor - by default a slot is empty
     Slot() {
         slotNumber = 0;
         isOccupied = false;
@@ -31,14 +27,12 @@ public:
     }
 };
 
-// ---------------------------------------------------------
-// A simple class that manages ALL the parking slots
-// ---------------------------------------------------------
+
 class ParkingLot {
 public:
-    Slot slots[TOTAL_SLOTS];   // simple array of slots (basic DSA!)
+    Slot slots[TOTAL_SLOTS];   
 
-    // Fill slot numbers 1 to TOTAL_SLOTS
+
     void setupEmptySlots() {
         for (int i = 0; i < TOTAL_SLOTS; i++) {
             slots[i].slotNumber = i + 1;
