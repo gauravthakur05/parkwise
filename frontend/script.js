@@ -1,15 +1,6 @@
-/*
-  script.js
-  ---------------------------------------------------
-  Plain JavaScript (no frameworks). This file only talks
-  to the backend API (served by server.js, which runs the
-  C++ program). It does NOT do any parking calculations
-  itself - it just sends requests and displays results.
-*/
 
-const API_BASE = ""; // same origin, since server.js serves this page too
 
-// ---------- Live clock in header ----------
+const API_BASE = ""; 
 function updateClock() {
   const now = new Date();
   document.getElementById("liveClock").textContent = now.toLocaleTimeString();
@@ -17,12 +8,12 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// Small animation: lower the boom barrier pole shortly after load
+
 setTimeout(() => {
   document.getElementById("pole").classList.add("up");
 }, 500);
 
-// ---------- Fetch and render status counters ----------
+
 async function loadStatus() {
   try {
     const res = await fetch(`${API_BASE}/api/status`);
@@ -35,7 +26,7 @@ async function loadStatus() {
   }
 }
 
-// ---------- Fetch and render parked vehicle table + slot map ----------
+
 async function loadVehicles() {
   try {
     const res = await fetch(`${API_BASE}/api/list`);
@@ -65,14 +56,14 @@ async function loadVehicles() {
   }
 }
 
-// Convert unix timestamp (seconds) from C++ into readable time
+
 function formatEntryTime(unixSeconds) {
   if (!unixSeconds) return "-";
   const date = new Date(parseInt(unixSeconds, 10) * 1000);
   return date.toLocaleTimeString();
 }
 
-// Draw a simple visual grid of all slots (occupied vs free)
+
 function renderSlotMap(vehicles) {
   const totalSlots = parseInt(document.getElementById("totalSlots").textContent, 10) || 10;
   const occupiedSlotNumbers = vehicles.map((v) => parseInt(v.SLOT, 10));
@@ -86,7 +77,7 @@ function renderSlotMap(vehicles) {
   slotMap.innerHTML = html;
 }
 
-// ---------- Fetch and render full history table ----------
+
 async function loadHistory() {
   try {
     const res = await fetch(`${API_BASE}/api/history`);
@@ -99,7 +90,7 @@ async function loadHistory() {
       return;
     }
 
-    // Show most recent events first
+  
     const reversed = [...history].reverse();
 
     tbody.innerHTML = reversed
