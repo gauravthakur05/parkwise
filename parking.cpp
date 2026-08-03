@@ -43,8 +43,7 @@ public:
         }
     }
 
-    // Load slot data from the text file into the array
-    // If the file does not exist, create fresh empty slots
+   
  void loadData() {
     setupEmptySlots();
 
@@ -76,7 +75,6 @@ public:
     inFile.close();
 }
 
-    // Save the current slot array back into the text file
     void saveData() {
 
     ofstream outFile(DATA_FILE.c_str(), ios::trunc);
@@ -95,29 +93,28 @@ public:
     outFile.close();
 }
 
-    // Find the first empty slot. Returns index, or -1 if lot is full.
     int findEmptySlot() {
         for (int i = 0; i < TOTAL_SLOTS; i++) {
             if (slots[i].isOccupied == false) {
                 return i;
             }
         }
-        return -1; // no empty slot found
+        return -1; 
     }
 
-    // Find slot index by vehicle number. Returns index, or -1 if not found.
+  
     int findVehicle(string vehicleNumber) {
         for (int i = 0; i < TOTAL_SLOTS; i++) {
             if (slots[i].isOccupied == true && slots[i].vehicleNumber == vehicleNumber) {
                 return i;
             }
         }
-        return -1; // vehicle not found
+        return -1; 
     }
 
-    // Park a new vehicle. Prints the result in a simple format.
+    
     void parkVehicle(string vehicleNumber, string vehicleType) {
-        // First check the vehicle is not already parked
+
         if (findVehicle(vehicleNumber) != -1) {
             cout << "FAIL;MESSAGE=Vehicle already parked" << endl;
             return;
@@ -129,11 +126,11 @@ public:
             return;
         }
 
-        // Fill slot details
+        
         slots[index].isOccupied = true;
         slots[index].vehicleNumber = vehicleNumber;
         slots[index].vehicleType = vehicleType;
-        slots[index].entryTime = (long)time(0); // current time in seconds
+        slots[index].entryTime = (long)time(0); 
 
         cout << "SUCCESS;SLOT=" << slots[index].slotNumber
              << ";VEHICLE=" << vehicleNumber
@@ -141,11 +138,11 @@ public:
              << ";ENTRY=" << slots[index].entryTime << endl;
     }
 
-    // Calculate parking fee based on vehicle type and duration (in minutes)
+    
     int calculateFee(string vehicleType, long durationMinutes) {
         int ratePerHour;
 
-        // Simple if-else / switch style pricing rules
+        
         if (vehicleType == "Bike") {
             ratePerHour = 10;
         } else if (vehicleType == "Car") {
@@ -153,22 +150,22 @@ public:
         } else if (vehicleType == "Truck") {
             ratePerHour = 40;
         } else {
-            ratePerHour = 15; // default rate for other vehicle types
+            ratePerHour = 15;
         }
 
-        // Round UP to the next hour (minimum charge = 1 hour)
+       
         int hours = durationMinutes / 60;
         if (durationMinutes % 60 != 0) {
             hours = hours + 1;
         }
         if (hours == 0) {
-            hours = 1; // minimum 1 hour charge
+            hours = 1; 
         }
 
         return hours * ratePerHour;
     }
 
-    // Remove a vehicle (exit) and calculate the fee
+  
     void exitVehicle(string vehicleNumber) {
         int index = findVehicle(vehicleNumber);
         if (index == -1) {
@@ -185,7 +182,7 @@ public:
         int slotNumber = slots[index].slotNumber;
         string vehicleType = slots[index].vehicleType;
 
-        // Free up the slot
+        
         slots[index].isOccupied = false;
         slots[index].vehicleNumber = "-";
         slots[index].vehicleType = "-";
@@ -198,7 +195,7 @@ public:
              << ";FEE=" << fee << endl;
     }
 
-    // Print overall status: total, available, occupied slots
+
     void showStatus() {
         int occupiedCount = 0;
         for (int i = 0; i < TOTAL_SLOTS; i++) {
@@ -213,13 +210,13 @@ public:
              << ";OCCUPIED=" << occupiedCount << endl;
     }
 
-    // Print list of all currently parked vehicles
+    
     void listVehicles() {
         bool first = true;
         for (int i = 0; i < TOTAL_SLOTS; i++) {
             if (slots[i].isOccupied) {
                 if (!first) {
-                    cout << "|"; // separator between entries
+                    cout << "|"; 
                 }
                 cout << "SLOT=" << slots[i].slotNumber
                      << ",VEHICLE=" << slots[i].vehicleNumber
@@ -228,10 +225,10 @@ public:
                 first = false;
             }
         }
-        cout << endl; // if no vehicles, this just prints an empty line
+        cout << endl; 
     }
 
-    // Search for one vehicle by number and print its slot details
+   
     void searchVehicle(string vehicleNumber) {
         int index = findVehicle(vehicleNumber);
         if (index == -1) {
@@ -246,14 +243,11 @@ public:
     }
 };
 
-// ---------------------------------------------------------
-// MAIN FUNCTION - reads command line arguments and calls
-// the correct ParkingLot function.
-// ---------------------------------------------------------
+
 int main(int argc, char* argv[]) {
 
     ParkingLot lot;
-    lot.loadData(); // always load latest data first
+    lot.loadData(); 
 
     if (argc < 2) {
         cout << "FAIL;MESSAGE=No command given" << endl;
@@ -275,7 +269,7 @@ int main(int argc, char* argv[]) {
             string vehicleNumber = argv[2];
             string vehicleType = argv[3];
             lot.parkVehicle(vehicleNumber, vehicleType);
-            lot.saveData(); // save changes to file
+            lot.saveData(); 
         }
     }
     else if (command == "exit") {
@@ -284,7 +278,7 @@ int main(int argc, char* argv[]) {
         } else {
             string vehicleNumber = argv[2];
             lot.exitVehicle(vehicleNumber);
-            lot.saveData(); // save changes to file
+            lot.saveData(); 
         }
     }
     else if (command == "search") {
