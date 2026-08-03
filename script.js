@@ -1,11 +1,4 @@
-/*
-  script.js
-  ---------------------------------------------------
-  Plain JavaScript (no frameworks). This file only talks
-  to the backend API (served by server.js, which runs the
-  C++ program). It does NOT do any parking calculations
-  itself - it just sends requests and displays results.
-*/
+
 
 const API_BASE = ""; 
 function updateClock() {
@@ -15,12 +8,12 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// Small animation: lower the boom barrier pole shortly after load
+
 setTimeout(() => {
   document.getElementById("pole").classList.add("up");
 }, 500);
 
-// ---------- Fetch and render status counters ----------
+
 async function loadStatus() {
   try {
     const res = await fetch(`${API_BASE}/api/status`);
@@ -33,7 +26,6 @@ async function loadStatus() {
   }
 }
 
-// ---------- Fetch and render parked vehicle table + slot map ----------
 async function loadVehicles() {
   try {
     const res = await fetch(`${API_BASE}/api/list`);
