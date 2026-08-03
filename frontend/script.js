@@ -220,16 +220,19 @@ document.getElementById("clearHistoryBtn").addEventListener("click", async () =>
   try {
     const res = await fetch(`${API_BASE}/api/history/clear`, { method: "POST" });
     const data = await res.json();
-    if (data.SUCCESS !== undefined) {
+
+    console.log(data);   // <-- ADD THIS
+
+    alert(JSON.stringify(data));   // <-- ADD THIS
+
+    if (data.MESSAGE) {
+      alert(data.MESSAGE);
       loadHistory();
     } else {
       alert("Could not clear history.");
     }
   } catch (err) {
+    console.error(err);
     alert("Server error. Is server.js running?");
   }
 });
-document.getElementById("refreshBtn").addEventListener("click", refreshDashboard);
-
-// ---------- Load data when page opens ----------
-refreshDashboard();
