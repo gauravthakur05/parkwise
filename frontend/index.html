@@ -114,9 +114,14 @@
       <section class="panel panel--wide panel--full">
         <div class="panel__header">
           <h2 class="panel__title">Parking History</h2>
-          <a class="btn btn--go btn--sm" id="downloadHistoryBtn" href="/api/history/download" download="parking_history.csv">
-            ⬇ Download Excel (CSV)
-          </a>
+          <div class="panel__actions">
+            <a class="btn btn--go btn--sm" id="downloadHistoryBtn" href="/api/history/download" download="parking_history.csv">
+              ⬇ Download Excel (CSV)
+            </a>
+            <button class="btn btn--stop btn--sm" id="clearHistoryBtn" type="button">
+              🗑 Clear History
+            </button>
+          </div>
         </div>
 
         <table class="table">
