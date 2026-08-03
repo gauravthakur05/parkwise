@@ -183,6 +183,13 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    // POST /api/history/clear -> wipes the history log
+    if (pathname === "/api/history/clear" && req.method === "POST") {
+      const output = await runParkingProgram(["clearhistory"]);
+      sendJSON(res, 200, parseSimpleFormat(output));
+      return;
+    }
+
     // GET /api/search?vehicleNumber=XYZ
     if (pathname === "/api/search" && req.method === "GET") {
       const vehicleNumber = parsedUrl.query.vehicleNumber || "";
