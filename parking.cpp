@@ -93,7 +93,6 @@ public:
     outFile.close();
 }
 
-// Erase the entire history log (used by the "Clear History" button).
     void clearHistory() {
         ofstream historyFile(HISTORY_FILE.c_str()); // no ios::app = overwrite/empty
         historyFile.close();
