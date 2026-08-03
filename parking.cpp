@@ -93,6 +93,13 @@ public:
     outFile.close();
 }
 
+// Erase the entire history log (used by the "Clear History" button).
+    void clearHistory() {
+        ofstream historyFile(HISTORY_FILE.c_str()); // no ios::app = overwrite/empty
+        historyFile.close();
+        cout << "SUCCESS;MESSAGE=History cleared" << endl;
+    }
+
     int findEmptySlot() {
         for (int i = 0; i < TOTAL_SLOTS; i++) {
             if (slots[i].isOccupied == false) {
@@ -280,6 +287,9 @@ int main(int argc, char* argv[]) {
             lot.exitVehicle(vehicleNumber);
             lot.saveData(); 
         }
+    }
+    else if (command == "clearhistory") {
+        lot.clearHistory();
     }
     else if (command == "search") {
         if (argc < 3) {
