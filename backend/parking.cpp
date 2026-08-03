@@ -170,6 +170,15 @@ public:
         historyFile.close();
     }
 
+
+    // Clear all history records
+    void clearHistory() {
+        ofstream historyFile(HISTORY_FILE.c_str(), ios::trunc);
+        historyFile.close();
+
+        cout << "SUCCESS;MESSAGE=History cleared" << endl;
+    }
+
     // Find the first empty slot. Returns index, or -1 if lot is full.
     int findEmptySlot() {
         for (int i = 0; i < TOTAL_SLOTS; i++) {
@@ -371,6 +380,9 @@ int main(int argc, char* argv[]) {
     }
     else if (command == "history") {
         lot.printHistory();
+    }
+    else if (command == "clearhistory") {
+        lot.clearHistory();
     }
     else if (command == "search") {
         if (argc < 3) {
