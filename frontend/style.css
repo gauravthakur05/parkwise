@@ -1,0 +1,348 @@
+/* ==========================================================
+   ParkWise — Asphalt & Road-Marking themed dashboard
+   Palette:
+     --asphalt      #1B1D22   base background
+     --asphalt-2    #24272E   panel background
+     --lane-yellow  #F4C430   primary accent (road marking yellow)
+     --lane-white   #ECECEA   lane lines / primary text
+     --signal-red   #E4572E   occupied / stop accent
+     --signal-green #4FAE7A   available / go accent
+     --concrete     #8A8F98   muted text
+   ========================================================== */
+
+:root {
+  --asphalt: #1b1d22;
+  --asphalt-2: #24272e;
+  --asphalt-3: #2d3038;
+  --lane-yellow: #f4c430;
+  --lane-white: #ececea;
+  --signal-red: #e4572e;
+  --signal-green: #4fae7a;
+  --concrete: #8a8f98;
+  --font-display: "Bebas Neue", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-body: "Inter", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--asphalt);
+  background-image:
+    repeating-linear-gradient(180deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 4px);
+  color: var(--lane-white);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+/* ================= HEADER / BOOM BARRIER ================= */
+.gate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 32px;
+  background: var(--asphalt-2);
+  border-bottom: 4px solid var(--lane-yellow);
+  position: relative;
+}
+
+.gate__brand { display: flex; align-items: center; gap: 14px; }
+
+.gate__mark {
+  width: 46px; height: 46px;
+  background: var(--lane-yellow);
+  color: var(--asphalt);
+  font-family: var(--font-display);
+  font-size: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.gate__title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  letter-spacing: 1px;
+  margin: 0;
+  line-height: 1;
+}
+
+.gate__subtitle {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--concrete);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Animated boom barrier - decorative signature element */
+.gate__barrier {
+  flex: 1;
+  max-width: 260px;
+  height: 4px;
+  background: repeating-linear-gradient(90deg, var(--lane-yellow) 0 18px, var(--asphalt) 18px 26px);
+  position: relative;
+  display: none;
+}
+@media (min-width: 760px) { .gate__barrier { display: block; } }
+
+.gate__pole {
+  position: absolute;
+  left: 0; top: -22px;
+  width: 6px; height: 48px;
+  background: var(--signal-red);
+  border: 2px solid var(--lane-white);
+  border-radius: 3px;
+  transform-origin: bottom center;
+  transform: rotate(-58deg);
+  transition: transform 0.9s cubic-bezier(.4,1.4,.4,1);
+}
+.gate__pole.up { transform: rotate(0deg); }
+
+.gate__clock {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--lane-yellow);
+  letter-spacing: 1px;
+}
+
+/* ================= MAIN LAYOUT ================= */
+.lot { max-width: 1200px; margin: 0 auto; padding: 28px 24px 60px; }
+
+/* ================= COUNTERS ================= */
+.counters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.counter {
+  background: var(--asphalt-2);
+  border: 1px solid #34373f;
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 3px solid var(--concrete);
+}
+.counter--available { border-top-color: var(--signal-green); }
+.counter--occupied { border-top-color: var(--signal-red); }
+
+.counter__label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--concrete);
+}
+.counter__value {
+  font-family: var(--font-mono);
+  font-size: 40px;
+  font-weight: 600;
+  color: var(--lane-white);
+}
+.counter--available .counter__value { color: var(--signal-green); }
+.counter--occupied .counter__value { color: var(--signal-red); }
+
+/* ================= GRID ================= */
+.lot__grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 20px;
+}
+@media (max-width: 860px) {
+  .lot__grid { grid-template-columns: 1fr; }
+}
+
+.panel--full { grid-column: 1 / -1; }
+
+/* ================= PANEL ================= */
+.panel {
+  background: var(--asphalt-2);
+  border: 1px solid #34373f;
+  border-radius: 10px;
+  padding: 22px;
+}
+
+.panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  margin: 0 0 14px;
+  color: var(--lane-yellow);
+}
+
+/* Dashed lane-marking divider - recurring signature motif */
+.panel__lane {
+  border-top: 2px dashed #454955;
+  margin: 22px 0;
+}
+.panel__lane:first-of-type { margin-top: 0; }
+
+/* ================= FORMS ================= */
+.form { display: flex; flex-direction: column; gap: 8px; }
+.form--inline { flex-direction: row; gap: 10px; }
+.form--inline .form__input { flex: 1; }
+
+.form__label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--concrete);
+  margin-top: 6px;
+}
+
+.form__input {
+  background: var(--asphalt-3);
+  border: 1px solid #3d414b;
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: var(--lane-white);
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+.form__input:focus {
+  outline: 2px solid var(--lane-yellow);
+  outline-offset: 1px;
+}
+
+.form__result {
+  font-size: 13px;
+  margin: 10px 0 0;
+  min-height: 18px;
+  color: var(--concrete);
+}
+.form__result.ok { color: var(--signal-green); }
+.form__result.err { color: var(--signal-red); }
+
+/* ================= BUTTONS ================= */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  padding: 11px 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn:active { transform: scale(0.98); }
+
+.btn--go { background: var(--lane-yellow); color: var(--asphalt); }
+.btn--stop { background: var(--signal-red); color: var(--lane-white); }
+.btn--ghost {
+  background: transparent;
+  color: var(--lane-yellow);
+  border: 1px solid var(--lane-yellow);
+  margin-top: 0;
+}
+.btn--sm { padding: 7px 12px; font-size: 12px; }
+
+/* Anchor tags used as buttons (e.g. download link) need these resets */
+a.btn {
+  display: inline-block;
+  text-decoration: none;
+  margin-top: 0;
+}
+
+/* ================= FEE CARD ================= */
+.fee-card {
+  margin-top: 14px;
+  background: var(--asphalt-3);
+  border: 1px solid var(--signal-red);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.fee-card__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--concrete);
+}
+.fee-card__value {
+  font-family: var(--font-mono);
+  font-size: 30px;
+  color: var(--signal-red);
+  font-weight: 600;
+}
+.fee-card__meta { font-size: 12px; color: var(--concrete); }
+
+/* ================= TABLE ================= */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.table th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--concrete);
+  border-bottom: 2px solid #3d414b;
+  padding: 8px 10px;
+}
+.table td {
+  padding: 10px;
+  border-bottom: 1px solid #2c2f37;
+  font-family: var(--font-mono);
+}
+.table__empty {
+  text-align: center;
+  color: var(--concrete);
+  font-family: var(--font-body);
+  padding: 24px 0 !important;
+}
+
+/* ================= SLOT MAP (signature element) ================= */
+.slotmap {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+  gap: 10px;
+  margin-top: 22px;
+}
+.slot-bay {
+  aspect-ratio: 1 / 1;
+  border: 2px dashed var(--concrete);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--concrete);
+}
+.slot-bay.occupied {
+  border-style: solid;
+  border-color: var(--signal-red);
+  background: rgba(228, 87, 46, 0.12);
+  color: var(--signal-red);
+}
+.slot-bay.free {
+  border-color: var(--signal-green);
+  color: var(--signal-green);
+}
+
+/* ================= FOOTER ================= */
+.footer {
+  text-align: center;
+  padding: 18px;
+  color: var(--concrete);
+  font-size: 12px;
+  border-top: 1px solid #2c2f37;
+}
