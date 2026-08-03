@@ -1,0 +1,9 @@
+{
+  "name": "parkwise",
+  "version": "1.0.0",
+  "description": "Parking Lot Management System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
