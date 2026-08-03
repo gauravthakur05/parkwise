@@ -7,9 +7,7 @@
   itself - it just sends requests and displays results.
 */
 
-const API_BASE = ""; // same origin, since server.js serves this page too
-
-// ---------- Live clock in header ----------
+const API_BASE = ""; 
 function updateClock() {
   const now = new Date();
   document.getElementById("liveClock").textContent = now.toLocaleTimeString();
