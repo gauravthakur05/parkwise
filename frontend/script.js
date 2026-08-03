@@ -213,6 +213,22 @@ document.getElementById("searchForm").addEventListener("submit", async (e) => {
 });
 
 // ---------- Refresh button ----------
+document.getElementById("clearHistoryBtn").addEventListener("click", async () => {
+  const confirmed = confirm("This will permanently delete all parking history. Continue?");
+  if (!confirmed) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/history/clear`, { method: "POST" });
+    const data = await res.json();
+    if (data.SUCCESS !== undefined) {
+      loadHistory();
+    } else {
+      alert("Could not clear history.");
+    }
+  } catch (err) {
+    alert("Server error. Is server.js running?");
+  }
+});
 document.getElementById("refreshBtn").addEventListener("click", refreshDashboard);
 
 // ---------- Load data when page opens ----------
