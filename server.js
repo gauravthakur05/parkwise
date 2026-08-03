@@ -1,25 +1,4 @@
-/*
-  server.js
-  ---------------------------------------------------
-  This file does NOT contain any parking logic.
-  It only does two simple jobs:
 
-    1. Serves the frontend files (HTML, CSS, JS) so you
-       can open the dashboard in your browser.
-
-    2. When the frontend calls an API like /api/park,
-       this file RUNS the compiled C++ program
-       (backend/parking) with the right arguments,
-       reads what it prints, and sends that back to
-       the frontend as JSON.
-
-  ALL parking decisions (which slot, fee calculation,
-  searching etc.) happen inside the C++ program.
-  This file is just a simple messenger between the
-  browser and the C++ program.
-
-  Only built-in Node.js modules are used (no npm install needed).
-*/
 
 const http = require("http");
 const { execFile } = require("child_process");
@@ -29,7 +8,7 @@ const url = require("url");
 
 const PORT = 3000;
 
-// Path to the compiled C++ program (differs on Windows vs Mac/Linux)
+
 const isWindows = process.platform === "win32";
 const PARKING_EXE = path.join(
   __dirname,
@@ -37,13 +16,10 @@ const PARKING_EXE = path.join(
   isWindows ? "parking.exe" : "parking"
 );
 
-// Folder that contains our frontend files
+
 const FRONTEND_DIR = path.join(__dirname, "frontend");
 
-// ---------------------------------------------------------
-// Helper: runs the C++ program with given arguments and
-// returns its printed output (as a Promise)
-// ---------------------------------------------------------
+
 function runParkingProgram(args) {
   return new Promise((resolve, reject) => {
     execFile(PARKING_EXE, args, { cwd: path.join(__dirname, "backend") }, (error, stdout, stderr) => {
@@ -56,10 +32,7 @@ function runParkingProgram(args) {
   });
 }
 
-// ---------------------------------------------------------
-// Helper: converts the simple "KEY=VALUE;KEY=VALUE" text
-// that the C++ program prints into a normal JS object
-// ---------------------------------------------------------
+
 function parseSimpleFormat(line) {
   const result = {};
   const parts = line.split(";");
@@ -70,7 +43,7 @@ function parseSimpleFormat(line) {
   return result;
 }
 
-// Converts the list output ("SLOT=1,VEHICLE=..|SLOT=2,VEHICLE=..") into an array
+
 function parseListFormat(line) {
   if (!line) return [];
   const entries = line.split("|").filter((e) => e.length > 0);
@@ -84,10 +57,7 @@ function parseListFormat(line) {
   });
 }
 
-// ---------------------------------------------------------
-// Helper: converts an array of history record objects into
-// CSV text (comma separated values), which Excel can open directly.
-// ---------------------------------------------------------
+
 function historyToCSV(records) {
   const headers = ["Event", "Slot", "Vehicle Number", "Vehicle Type", "Entry Time", "Exit Time", "Fee (Rs)"];
   const rows = [headers.join(",")];
@@ -103,9 +73,7 @@ function historyToCSV(records) {
   return rows.join("\r\n");
 }
 
-// ---------------------------------------------------------
-// Helper: sends a JSON response
-// ---------------------------------------------------------
+
 function sendJSON(res, statusCode, dataObj) {
   res.writeHead(statusCode, {
     "Content-Type": "application/json",
@@ -114,9 +82,7 @@ function sendJSON(res, statusCode, dataObj) {
   res.end(JSON.stringify(dataObj));
 }
 
-// ---------------------------------------------------------
-// Helper: serves static frontend files (html/css/js)
-// ---------------------------------------------------------
+
 function serveStaticFile(req, res) {
   let reqPath = req.url === "/" ? "/index.html" : req.url;
   const filePath = path.join(FRONTEND_DIR, reqPath);
