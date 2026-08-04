@@ -4,6 +4,7 @@ A Parking Lot Management System with beginner-friendly C++ logic (arrays, classe
 
 ---
 
+
 ## ✨ Features
 
 - 🚗 Park a vehicle (auto-assigns the first free slot)
